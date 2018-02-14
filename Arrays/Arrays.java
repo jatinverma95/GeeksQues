@@ -1,6 +1,7 @@
 package Arrays;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -26,11 +27,17 @@ public class Arrays {
 		// System.out.println(searchInSortedRotatedArr(new int[] { 30, 40, 50,
 		// 10, 20 }, 0, 4, 10));
 
-		int[] arrr = (arrMpN(new int[] { 2, 8, -1, -1, -1, 13, -1, 15, 20 }, new int[] { 5, 7, 9, 25 }));
+		// int[] arrr = (arrMpN(new int[] { 2, 8, -1, -1, -1, 13, -1, 15, 20 },
+		// new int[] { 5, 7, 9, 25 }));
+		//
+		// for (int i = 0; i < arrr.length; i++) {
+		// System.out.print(arrr[i] + ",");
+		// }
 
-		for (int i = 0; i < arrr.length; i++) {
-			System.out.print(arrr[i] + ",");
-		}
+		Integer ar1[] = { 1, 3, 4, 8 };
+		Integer ar2[] = { 2, 5, 6, 7 };
+
+		System.out.println("Median is" + medainOfArr(ar1, ar2));
 	}
 
 	public static void reverseArr(int[] arr, int l, int r) {
@@ -289,11 +296,79 @@ public class Arrays {
 
 	}
 
-	public static void medainOfArr(int[] arr1, int[] arr2) {
-		
-		
-		
-		
+	public static float medainOfArr(Integer[] arr1, Integer[] arr2) {
+		if (arr1.length == 2 && arr2.length == 2) {
+			return (Math.max(arr1[0], arr2[0]) + Math.min(arr1[1], arr2[1])) / 2;
+		}
+
+		float m1 = median(arr1, arr1.length);
+		float m2 = median(arr2, arr2.length);
+
+		if (m1 == m2) {
+			return m1;
+		} else if (m1 < m2) {
+			ArrayList<Integer> arr1Temp = new ArrayList<>();
+			ArrayList<Integer> arr2Temp = new ArrayList<>();
+
+			int i = -1;
+			if (arr1.length % 2 != 0) {
+				i = arr1.length / 2;
+			} else {
+				i = (arr1.length / 2) - 1;
+			}
+
+			while (i < arr1.length) {
+				arr1Temp.add(arr1[i]);
+				i++;
+			}
+
+			int j = 0;
+			while (j <= arr2.length / 2) {
+				arr2Temp.add(arr2[j]);
+				j++;
+			}
+
+			arr1 = new Integer[arr1Temp.size()];
+			arr1 = arr1Temp.toArray(arr1);
+			arr2 = new Integer[arr2Temp.size()];
+			arr2 = arr2Temp.toArray(arr2);
+
+			return medainOfArr(arr1, arr2);
+		} else {
+			ArrayList<Integer> arr1Temp = new ArrayList<>();
+			ArrayList<Integer> arr2Temp = new ArrayList<>();
+
+			int i = -1;
+			if (arr1.length % 2 != 0) {
+				i = arr1.length / 2;
+			} else {
+				i = (arr1.length / 2) - 1;
+			}
+			while (i < arr2.length) {
+				arr2Temp.add(arr2[i]);
+				i++;
+			}
+			int j = 0;
+			while (j <= arr1.length / 2) {
+				arr1Temp.add(arr1[j]);
+				j++;
+			}
+			arr1 = new Integer[arr1Temp.size()];
+			arr1 = arr1Temp.toArray(arr1);
+			arr2 = new Integer[arr2Temp.size()];
+			arr2 = arr2Temp.toArray(arr2);
+
+			return medainOfArr(arr1, arr2);
+		}
+
+	}
+
+	private static float median(Integer[] arr, int n) {
+		if (n % 2 == 0) {
+			return (arr[n / 2] + arr[(n / 2) - 1]) / 2;
+		} else {
+			return arr[n / 2];
+		}
 	}
 
 }
