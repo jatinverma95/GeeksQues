@@ -8,7 +8,7 @@ import java.util.Set;
 public class Arrays {
 
 	public static void main(String[] args) {
-		int[] arr = new int[] { 16, 17, 114, 0, 5, 2 };
+		// int[] arr = new int[] { 16, 17, 114, 0, 5, 2 };
 		// reverseArr(arr, 0, 5);
 		//
 		// pairSumWHashMap(arr, 33);
@@ -34,10 +34,19 @@ public class Arrays {
 		// System.out.print(arrr[i] + ",");
 		// }
 
-		Integer ar1[] = { 1, 3, 4, 8 };
-		Integer ar2[] = { 2, 5, 6, 7 };
+		// Integer ar1[] = { 1, 3, 4, 8 };
+		// Integer ar2[] = { 2, 5, 6, 7 };
+		//
+		// System.out.println("Median is" + medainOfArr(ar1, ar2));
 
-		System.out.println("Median is" + medainOfArr(ar1, ar2));
+		// int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		// reversalAlgoArrRotatn(arr, arr.length, 6);
+		//
+		// for (int i = 0; i < arr.length; i++) {
+		// System.out.print(arr[i] + ",");
+		// }
+
+		maxSumWOAdjacent(new int[] { 3, 2, 5, 10, 7 });
 	}
 
 	public static void reverseArr(int[] arr, int l, int r) {
@@ -369,6 +378,70 @@ public class Arrays {
 		} else {
 			return arr[n / 2];
 		}
+	}
+
+	public static void jugglingAlgoArrRotatn(int[] arr, int n, int k) {
+		final int GCD = gcd(n, k);
+		for (int i = 0; i < GCD; i++) {
+			int j = i;
+
+			int temp = arr[j];
+			while (true) {
+				int next = (j + k) % n;
+				if (next == i) {
+					break;
+				}
+				arr[j] = arr[next];
+				j = next;
+			}
+			arr[j] = temp;
+		}
+
+	}
+
+	private static int gcd(int a, int b) {
+		if (b == 0) {
+			return a;
+		}
+
+		return gcd(b, a % b);
+	}
+
+	public static void reversalAlgoArrRotatn(int[] arr, int n, int k) {
+		reverse(arr, 0, k - 1);
+		reverse(arr, k, n - 1);
+		reverse(arr, 0, n - 1);
+	}
+
+	private static void reverse(int[] arr, int start, int end) {
+
+		int mid = (start + end) / 2;
+		int j = 0;
+		for (int i = start; i <= mid; i++) {
+			int temp = arr[i];
+			arr[i] = arr[end - j];
+			arr[end - j] = temp;
+			j++;
+		}
+
+	}
+
+	public static void maxSumWOAdjacent(int[] arr) {
+		int incl = arr[0];
+		int excl = 0;
+
+		for (int i = 1; i < arr.length; i++) {
+			int inclPrev = incl;
+			incl = excl + arr[i];
+			excl = Math.max(inclPrev, excl);
+		}
+
+		System.out.println(Math.max(excl, incl));
+
+	}
+
+	public static void sortByFreq(int[] arr) {
+
 	}
 
 }
