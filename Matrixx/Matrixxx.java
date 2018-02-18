@@ -1,11 +1,25 @@
 package Matrixx;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Matrixxx {
 
 	public static void main(String[] args) {
 		int mat[][] = { { 10, 20, 30, 40 }, { 15, 25, 35, 45 }, { 27, 29, 37, 48 }, { 32, 33, 39, 50 } };
 
-		System.out.println(rowWiseColWiseSearchDAQ(mat, 45, 0, mat.length - 1, 0, mat[0].length - 1));
+		// System.out.println(rowWiseColWiseSearchDAQ(mat, 45, 0, mat.length -
+		// 1, 0, mat[0].length - 1));
+
+		// spiralPrint(mat);
+		// booleanMatrixQuestion(mat);
+		// booleanMatrixQuestion(new int[][] { { 0, 0, 0 }, { 0, 0, 1 } });
+
+		// printUniqueRows(new int[][] { { 0, 1, 0, 0, 1 }, { 1, 0, 1, 1, 0 }, {
+		// 0, 1, 0, 0, 1 }, { 1, 0, 1, 0, 0 } });
+
+		maxSubMatW1(new int[][] { { 0, 1, 1, 0, 1 }, { 1, 1, 0, 1, 0 }, { 0, 1, 1, 1, 0 }, { 1, 1, 1, 1, 0 },
+				{ 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 } });
 	}
 
 	public static void rowWiseColWiseSearch(int[][] arr, int tbf) {
@@ -89,35 +103,198 @@ public class Matrixxx {
 		int i = 0, j = 0;
 		String dir = "L";
 
-		while (i < mat.length && j < mat[0].length) {
-			while (j < mat[0].length && i < hii && i > loi) {
+		boolean check = false;
+
+		while (true) {
+			// RIGHT
+			while (j < mat[0].length && j < hij && j > loj) {
 				loi = i;
 				System.out.print(mat[i][j] + ",");
 				j++;
+				check = true;
+			}
+			if (!check) {
+				break;
 			}
 			j--;
 			i++;
-			while (i < mat.length && j < hij && j > loj) {
+			check = false;
+
+			// DOWN
+			while (i < mat.length && i < hii && i > loi) {
 				hij = j;
 				System.out.print(mat[i][j] + ",");
 				i++;
+				check = true;
+			}
+			if (!check) {
+				break;
 			}
 			i--;
 			j--;
+			check = false;
 
-			while (i > loi && i < hii && j >= 0) {
+			// LEFT
+			while (j > loj && j < hij && j >= 0) {
 				hii = i;
 				System.out.print(mat[i][j] + ",");
 				j--;
+				check = true;
+			}
+			if (!check) {
+				break;
 			}
 			j++;
+			i--;
+			check = false;
 
-			while (j < hij && j > loj && i >= 0) {
+			// UP
+			while (i < hii && i > loi && i >= 0) {
 				loj = j;
 				System.out.print(mat[i][j] + ",");
+				i--;
+				check = true;
+			}
+			if (!check) {
+				break;
 			}
 			i++;
+			j++;
+			check = false;
 
+		}
+	}
+
+	private static class rowCol { // HOW THIS IS WORKING ,private members
+									// accessed outside of this class
+		private int row;
+		private int col;
+
+		private rowCol(int r, int c) {
+			this.row = r;
+			this.col = c;
+		}
+
+	}
+
+	public static void booleanMatrixQuestion(int[][] mat) {
+		// System.out.println(rc.row + "," + rc.col); //HERE
+
+		boolean rowCheck = false;
+		boolean colCheck = false;
+
+		for (int i = 0; i < mat.length; i++) {
+			if (mat[i][0] == 1) {
+				rowCheck = true;
+			}
+			if (mat[0][i] == 1) {
+				colCheck = true;
+			}
+		}
+
+		for (int i = 1; i < mat.length; i++) {
+			for (int j = 1; j < mat[i].length; j++) {
+				if (mat[i][j] == 1) {
+					mat[i][0] = 1;
+					mat[0][j] = 1;
+				} else {
+					if (mat[i][0] == 1) {
+						mat[i][j] = 1;
+					} else if (mat[0][j] == 1) {
+						mat[i][j] = 1;
+					}
+				}
+			}
+		}
+
+		for (int i = 1; i < mat.length; i++) {
+			for (int j = 1; j < mat[i].length; j++) {
+
+				if (mat[i][0] == 1) {
+					mat[i][j] = 1;
+				} else if (mat[0][j] == 1) {
+					mat[i][j] = 1;
+				}
+
+			}
+		}
+
+		if (rowCheck) {
+			for (int i = 0; i < mat.length; i++) {
+				mat[i][0] = 1;
+			}
+		}
+
+		if (colCheck) {
+			for (int i = 0; i < mat.length; i++) {
+				mat[0][i] = 1;
+			}
+		}
+
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				System.out.print(mat[i][j] + ",");
+			}
+			System.out.println();
+		}
+
+	}
+
+	public static void printUniqueRows(int[][] mat) {
+		HashMap<String, Boolean> hm = new HashMap<>();
+
+		for (int i = 0; i < mat.length; i++) {
+			String str = new String();
+			for (int j = 0; j < mat[i].length; j++) {
+				str += mat[i][j];
+			}
+
+			if (!hm.containsKey(str)) {
+				for (int j = 0; j < str.length(); j++) {
+					System.out.print(str.charAt(j) + ",");
+				}
+			}
+			System.out.println();
+
+			hm.put(str, true);
+		}
+	}
+
+	public static void maxSubMatW1(int[][] mat) {
+		int maxi = 0;
+		int maxj = 0;
+		int[][] temp = new int[mat.length][mat[0].length];
+
+		for (int i = 0; i < mat.length; i++) {
+			temp[i][mat[0].length - 1] = mat[i][mat[0].length - 1];
+		}
+
+		for (int i = 0; i < mat[0].length; i++) {
+			temp[mat.length - 1][i] = mat[mat.length - 1][i];
+		}
+		for (int i = mat.length - 2; i >= 0; i--) {
+			for (int j = mat[0].length - 2; j >= 0; j--) {
+				if (mat[i][j] == 1) {
+					temp[i][j] = Math.min(temp[i][j + 1], Math.min(temp[i + 1][j], temp[i + 1][j + 1])) + 1;
+				}
+			}
+		}
+		int max = Integer.MIN_VALUE;
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				if (temp[i][j] > max) {
+					max = temp[i][j];
+					maxi = i;
+					maxj = i;
+				}
+			}
+		}
+
+		for (int i = 0; i < max; i++) {
+			for (int j = 0; j < max; j++) {
+				System.out.print("1");
+			}
+			System.out.println();
 		}
 	}
 
