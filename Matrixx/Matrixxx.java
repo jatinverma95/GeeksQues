@@ -18,8 +18,11 @@ public class Matrixxx {
 		// printUniqueRows(new int[][] { { 0, 1, 0, 0, 1 }, { 1, 0, 1, 1, 0 }, {
 		// 0, 1, 0, 0, 1 }, { 1, 0, 1, 0, 0 } });
 
-		maxSubMatW1(new int[][] { { 0, 1, 1, 0, 1 }, { 1, 1, 0, 1, 0 }, { 0, 1, 1, 1, 0 }, { 1, 1, 1, 1, 0 },
-				{ 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 } });
+		// maxSubMatW1(new int[][] { { 0, 1, 1, 0, 1 }, { 1, 1, 0, 1, 0 }, { 0,
+		// 1, 1, 1, 0 }, { 1, 1, 1, 1, 0 },
+		// { 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 } });
+
+		inplaceTransposeNxN(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 	}
 
 	public static void rowWiseColWiseSearch(int[][] arr, int tbf) {
@@ -293,6 +296,25 @@ public class Matrixxx {
 		for (int i = 0; i < max; i++) {
 			for (int j = 0; j < max; j++) {
 				System.out.print("1");
+			}
+			System.out.println();
+		}
+	}
+
+	public static void inplaceTransposeNxN(int[][] mat) {
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				if (i < j) {
+					int temp = mat[i][j];
+					mat[i][j] = mat[j][i];
+					mat[j][i] = temp;
+				}
+			}
+		}
+
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				System.out.print(mat[i][j]);
 			}
 			System.out.println();
 		}
