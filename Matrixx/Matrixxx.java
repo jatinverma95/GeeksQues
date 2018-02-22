@@ -320,4 +320,33 @@ public class Matrixxx {
 		}
 	}
 
+	public static void inplaceTransposeMxN(int[][] mat) {
+
+		HashMap<Integer, Boolean> hm = new HashMap<>();
+
+		int R = mat.length;
+		int C = mat[0].length;
+		int N = R * C;
+
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[j].length; j++) {
+				int ol = j * R + i;
+				if ((i != 0 && j != 0) || (i != mat.length - 1 && j != mat.length - 1) || !hm.containsKey(ol)) {
+					hm.put(ol, true);
+
+					int nl = (ol * R) % (N - 1);
+
+					while (nl != ol) {
+							
+						
+						nl = (ol * R) % (N - 1);			
+					}
+					
+
+				}
+			}
+		}
+
+	}
+
 }
