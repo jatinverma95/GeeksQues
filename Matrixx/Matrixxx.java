@@ -337,13 +337,43 @@ public class Matrixxx {
 					int nl = (ol * R) % (N - 1);
 
 					while (nl != ol) {
-							
-						
-						nl = (ol * R) % (N - 1);			
+
+						nl = (ol * R) % (N - 1);
 					}
-					
 
 				}
+			}
+		}
+
+	}
+
+	public static void maxSumRectIn2D(int[][] mat) {
+		for (int i = 0; i < mat.length; i++) {
+			int[] temp = new int[mat.length];
+			for (int j = i; j < mat[0].length; j++) {
+				for (int k = 0; k < temp.length; k++) {
+					temp[k] += mat[k][j];
+				}
+
+				int currSum = kadane(temp);
+
+			}
+		}
+	}
+
+	private static int[] kadane(int[] temp) {
+		int[] res = new int[3];
+
+		int sum = Integer.MIN_VALUE;
+
+		for (int i = 0; i < temp.length; i++) {
+			if (temp[i] > sum + temp[i]) {
+				res[0] = temp[i];
+				res[1] = i;
+				res[2] = i;
+			} else {
+				res[0] += temp[i];
+				res[2] = i;
 			}
 		}
 
