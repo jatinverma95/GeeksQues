@@ -22,7 +22,14 @@ public class Matrixxx {
 		// 1, 1, 1, 0 }, { 1, 1, 1, 1, 0 },
 		// { 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 } });
 
-		inplaceTransposeNxN(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+		// inplaceTransposeNxN(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9
+		// } });
+
+		// maxSumRectIn2D(
+		// (new int[][] { { 1, 2, -1, -4, -20 }, { -8, -3, 4, 2, 1 }, { 3, 8,
+		// 10, 1, 3 }, { -4, -1, 1, 7, -6 } }));
+
+		AlternateXandO(3, 3);
 	}
 
 	public static void rowWiseColWiseSearch(int[][] arr, int tbf) {
@@ -348,33 +355,132 @@ public class Matrixxx {
 	}
 
 	public static void maxSumRectIn2D(int[][] mat) {
+		int left = -1;
+		int right = -1;
+		int top = -1;
+		int bottom = -1;
+		int sumLocal = Integer.MIN_VALUE;
+
 		for (int i = 0; i < mat.length; i++) {
 			int[] temp = new int[mat.length];
+
 			for (int j = i; j < mat[0].length; j++) {
 				for (int k = 0; k < temp.length; k++) {
 					temp[k] += mat[k][j];
 				}
 
-				int currSum = kadane(temp);
+				int[] currSum = kadane(temp);
+
+				if (currSum[0] > sumLocal) {
+					sumLocal = currSum[0];
+					left = i;
+					right = j;
+					top = currSum[1];
+					bottom = currSum[2];
+				}
 
 			}
 		}
+
+		System.out.println(sumLocal + "," + top + "," + left + "," + bottom + "," + right);
 	}
 
 	private static int[] kadane(int[] temp) {
 		int[] res = new int[3];
 
-		int sum = Integer.MIN_VALUE;
-
+		int sum = -999;
+		int iIdx = -1;
 		for (int i = 0; i < temp.length; i++) {
-			if (temp[i] > sum + temp[i]) {
-				res[0] = temp[i];
-				res[1] = i;
-				res[2] = i;
+			if (temp[i] > (sum + temp[i])) {
+				sum = temp[i];
+				iIdx = i;
 			} else {
-				res[0] += temp[i];
+				sum += temp[i];
+			}
+
+			if (res[0] < sum) {
+				res[0] = sum;
+				res[1] = iIdx;
 				res[2] = i;
 			}
+		}
+
+		return res;
+
+	}
+
+	public static void strassenMatrixMultiplication(int[][] one, int[][] two, int n) {
+		// THEORITICAL
+	}
+
+	public static void AlternateXandO(int m, int n) {
+		char[][] mat = new char[m][n];
+
+		int i = 0, j = 0;
+
+		char dir = 'l';
+		char XorO = 'X';
+
+		int loi = 0;
+		int hii = n;
+		int loj = 0;
+		int hij = m;
+
+		while (true) {
+
+			while (j < hij) {
+				mat[i][j] = XorO;
+				j++;
+			}
+
+			j--;
+			i++;
+			if (i >= hii) {
+				break;
+			}
+			loi++;
+
+			while (i < hii) {
+				mat[i][j] = XorO;
+				i++;
+			}
+			i--;
+			j--;
+			if (j <= loj) {
+				break;
+			}
+			hij--;
+
+			while (j >= loj) {
+				mat[i][j] = XorO;
+				j--;
+			}
+			j--;
+			i--;
+			if (i <= loi) {
+				break;
+			}
+			hii--;
+
+			while (i >= loi) {
+				mat[i][j] = XorO;
+				i--;
+			}
+			i++;
+			j++;
+			if (j >= hij) {
+				break;
+			}
+			loj++;
+			XorO = 'O';
+
+		}
+
+		for (int p = 0; p < n; p++) {
+			for (int q = 0; q < m; q++) {
+				System.out.print(mat[p][q] + ",");
+			}
+			System.out.println();
 		}
 
 	}
