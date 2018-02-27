@@ -1,9 +1,12 @@
 package Matrixx;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Matrixxx {
+
+	private static final int INF = Integer.MAX_VALUE;
 
 	public static void main(String[] args) {
 		int mat[][] = { { 10, 20, 30, 40 }, { 15, 25, 35, 45 }, { 27, 29, 37, 48 }, { 32, 33, 39, 50 } };
@@ -29,7 +32,22 @@ public class Matrixxx {
 		// (new int[][] { { 1, 2, -1, -4, -20 }, { -8, -3, 4, 2, 1 }, { 3, 8,
 		// 10, 1, 3 }, { -4, -1, 1, 7, -6 } }));
 
-		AlternateXandO(3, 3);
+		// AlternateXandO(3, 3);
+		// printElementSortedWYoungTableau(
+		// new int[][] { { 10, 20, 30, 40 }, { 15, 25, 35, 45 }, { 27, 29, 37,
+		// 48 }, { 32, 33, 39, 50 } });
+
+		// printElementSortedWMerge(
+		// new int[][] { { 10, 20, 30, 40 }, { 15, 25, 35, 45 }, { 27, 29, 37,
+		// 48 }, { 32, 33, 39, 50 } });
+
+		// sumOfKSubSquares(new int[][] { { 1, 1, 1, 1, 1 }, { 2, 2, 2, 2, 2 },
+		// { 3, 3, 3, 3, 3 }, { 4, 4, 4, 4, 4 },
+		// { 5, 5, 5, 5, 5 } }, 3);
+
+		int n = countIslands(new char[][] { { 'O', 'O', 'O' }, { 'X', 'X', 'O' }, { 'X', 'X', 'O' }, { 'O', 'O', 'X' },
+				{ 'O', 'O', 'X' }, { 'X', 'X', 'O' } });
+		System.out.println(n);
 	}
 
 	public static void rowWiseColWiseSearch(int[][] arr, int tbf) {
@@ -481,6 +499,175 @@ public class Matrixxx {
 				System.out.print(mat[p][q] + ",");
 			}
 			System.out.println();
+		}
+
+	}
+
+	public static void printElementSortedWYoungTableau(int[][] mat) {
+		for (int i = 0; i < mat.length * mat.length; i++) {
+			int temp = mat[0][0];
+			mat[0][0] = INF;
+			youngTableau(mat, 0, 0);
+			System.out.print(temp + ",");
+		}
+	}
+
+	private static void youngTableau(int[][] mat, int i, int j) {
+
+		int down = (i) < mat.length - 1 ? mat[i + 1][j] : INF;
+		int right = (j) < mat.length - 1 ? mat[i][j + 1] : INF;
+
+		if (down == INF && right == INF) {
+			return;
+		}
+
+		if (down < right) {
+			mat[i][j] = down;
+			mat[i + 1][j] = INF;
+			youngTableau(mat, i + 1, j);
+		} else {
+			mat[i][j] = right;
+			mat[i][j + 1] = INF;
+			youngTableau(mat, i, j + 1);
+		}
+
+	}
+
+	private static class HelperMerge {
+		int row;
+		int col;
+		int data;
+	}
+
+	public static void printElementSortedWMerge(int[][] mat) {
+
+		HelperMerge[] arr = new HelperMerge[mat.length];
+
+		for (int i = 0; i < mat.length; i++) {
+			arr[i] = new HelperMerge();
+			arr[i].row = i;
+			arr[i].col = 0;
+			arr[i].data = mat[i][0];
+		}
+
+		printElementSOrtedWMergeAlgo(mat, arr, 0);
+	}
+
+	public static void printElementSOrtedWMergeAlgo(int[][] mat, HelperMerge[] arr, int x) {
+		if (x == arr.length) {
+			return;
+		}
+		HelperMerge min = new HelperMerge();
+		min.row = -1;
+		min.data = INF;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i].data != INF && arr[i].data < min.data) {
+				min.data = arr[i].data;
+				min.row = i;
+
+			}
+		}
+
+		if (min.row == -1) {
+			return;
+		}
+
+		arr[min.row].col++;
+		if (arr[min.row].col == mat.length) {
+			x++;
+			System.out.print(arr[min.row].data + ",");
+			arr[min.row].data = INF;
+		} else {
+			System.out.print(arr[min.row].data + ",");
+			arr[min.row].data = mat[min.row][arr[min.row].col];
+		}
+		printElementSOrtedWMergeAlgo(mat, arr, x);
+
+	}
+
+	public static void sumOfKSubSquares(int[][] mat, int k) {
+		int[][] storage = new int[mat.length][mat[0].length];
+		for (int j = 0; j < mat[0].length; j++) {
+			int sum = 0;
+			for (int i = 0; i < k; i++) {
+				sum += mat[i][j];
+			}
+			storage[0][j] = sum;
+
+			for (int l = 1; l + k - 1 < mat.length; l++) {
+				sum += (mat[l + k - 1][j] - mat[l - 1][j]);
+				storage[l][j] = sum;
+			}
+
+		}
+
+		int[][] ans = new int[k][k];
+
+		for (int i = 0; i < storage.length - k + 1; i++) {
+			for (int j = 0; j <= storage[i].length - k; j++) {
+				int sum = 0;
+				int l = 0;
+				int idx = j;
+				while (l < k) {
+					sum += storage[i][idx];
+					idx++;
+					l++;
+				}
+				ans[i][j] = sum;
+
+			}
+		}
+
+		for (int i = 0; i < ans.length; i++) {
+			for (int j = 0; j < ans[0].length; j++) {
+				System.out.print(ans[i][j] + ",");
+			}
+			System.out.println();
+		}
+	}
+
+	public static int countIslands(char[][] mat) {
+		int sum = 0;
+		for (int i = 0; i < mat.length; i++) {
+
+			for (int j = 0; j < mat[0].length; j++) {
+				int localSum = 0;
+				if (mat[i][j] == 'X') {
+					if (i != 0 && j != 0) {
+						if ((mat[i - 1][j] == 'O') && mat[i][j - 1] == 'O') {
+							localSum += 1;
+						}
+					} else if (i != 0) {
+						if (mat[i - 1][j] == 'O') {
+							localSum += 1;
+						}
+					} else if (j != 0) {
+						if (mat[i][j - 1] == 'O') {
+							localSum += 1;
+						}
+					} else {
+						localSum = 1;
+					}
+				}
+				sum += localSum;
+			}
+		}
+		return sum;
+	}
+
+	public static void commonElementsInAllRows(int[][] mat) {
+
+		int i = 0;
+		int j = 0;
+
+		int one = 0;
+		int two = 0;
+
+		while (i < mat.length) {
+
+			while (one < mat[0].length)
+
+				i++;
 		}
 
 	}
