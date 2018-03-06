@@ -44,10 +44,14 @@ public class Matrixxx {
 		// sumOfKSubSquares(new int[][] { { 1, 1, 1, 1, 1 }, { 2, 2, 2, 2, 2 },
 		// { 3, 3, 3, 3, 3 }, { 4, 4, 4, 4, 4 },
 		// { 5, 5, 5, 5, 5 } }, 3);
+		//
+		// int n = countIslands(new char[][] { { 'O', 'O', 'O' }, { 'X', 'X',
+		// 'O' }, { 'X', 'X', 'O' }, { 'O', 'O', 'X' },
+		// { 'O', 'O', 'X' }, { 'X', 'X', 'O' } });
+		// System.out.println(n);
 
-		int n = countIslands(new char[][] { { 'O', 'O', 'O' }, { 'X', 'X', 'O' }, { 'X', 'X', 'O' }, { 'O', 'O', 'X' },
-				{ 'O', 'O', 'X' }, { 'X', 'X', 'O' } });
-		System.out.println(n);
+		commonElementsInAllRows(
+				new int[][] { { 1, 2, 3, 4, 5 }, { 2, 4, 5, 8, 10 }, { 3, 4, 7, 9, 11 }, { 1, 3, 4, 7, 9 } });
 	}
 
 	public static void rowWiseColWiseSearch(int[][] arr, int tbf) {
@@ -657,19 +661,36 @@ public class Matrixxx {
 
 	public static void commonElementsInAllRows(int[][] mat) {
 
+		int[] arr = new int[mat.length];
+
 		int i = 0;
-		int j = 0;
-
-		int one = 0;
-		int two = 0;
-
-		while (i < mat.length) {
-
-			while (one < mat[0].length)
-
-				i++;
+		boolean a = true;
+		while (i < mat[0].length) {
+			int x = findMax(arr, mat);
+			a = true;
+			for (int j = 0; j < arr.length; j++) {
+				if (mat[j][arr[j]] != x) {
+					arr[j]++;
+					a = false;
+				}
+			}
+			if (a) {
+				System.out.print(a + " And Number is:" + x);
+			}
+			i++;
 		}
 
+	}
+
+	private static int findMax(int[] arr, int[][] mat) {
+		int mini = Integer.MIN_VALUE;
+		for (int i = 0; i < arr.length; i++) {
+			if (mat[i][arr[i]] > mini) {
+				mini = mat[i][arr[i]];
+			}
+		}
+
+		return mini;
 	}
 
 }
