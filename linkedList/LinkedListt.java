@@ -1,7 +1,5 @@
 package linkedList;
 
-import lecture1_LL.LinkedList.Node;
-
 public class LinkedListt {
 
 	private class Node {
@@ -90,9 +88,14 @@ public class LinkedListt {
 		Node newNode = new Node();
 		newNode.data = data;
 		newNode.next = null;
-		
-		this.tail.next = newNode;
-		
+		if (this.tail == null) {
+			this.head = newNode;
+			this.tail = newNode;
+		} else {
+			this.tail.next = newNode;
+		}
+		this.tail = newNode;
+		this.size++;
 	}
 
 	public void addFirst(int data) {
@@ -104,9 +107,10 @@ public class LinkedListt {
 			this.tail = newNode;
 		}
 		this.head = newNode;
+		this.size++;
 	}
 
-	public void addAt(int index, int data) throws Exception {
+	public void addAt(int data, int index) throws Exception {
 		if (this.isEmpty()) {
 			throw new Exception("EmptyList");
 		}
@@ -135,6 +139,7 @@ public class LinkedListt {
 			throw new Exception("EmptyList");
 		}
 		this.head = this.head.next;
+		this.size--;
 	}
 
 	public void removeLast() throws Exception {
@@ -142,9 +147,10 @@ public class LinkedListt {
 			throw new Exception("EmptyList");
 		}
 
-		Node nm1Node = this.getNodeAt(this.getSize() - 1);
+		Node nm1Node = this.getNodeAt(this.getSize() - 2);
 		nm1Node.next = null;
-
+		this.tail = nm1Node;
+		this.size--;
 	}
 
 	public void removeAt(int index) throws Exception {
@@ -155,8 +161,122 @@ public class LinkedListt {
 			throw new Exception("Invalid index");
 		}
 
-		Node nm1Node = this.getNodeAt(index - 1);
+		if (index == 0) {
+			this.removeFirst();
+		} else if (index == this.size - 1) {
+			this.removeLast();
+		} else {
+			Node nm1Node = this.getNodeAt(index - 1);
+			nm1Node.next = nm1Node.next.next;
+			this.size--;
+		}
+	}
+
+	public void reverseDI() throws Exception {
+		if (this.getSize() == 0) {
+			throw new Exception("Empty List");
+		}
+
+		if (this.getSize() == 1) {
+			return;
+		}
+
+		Node first = this.head;
+		Node last = this.tail;
+		int sizeLocal = this.getSize() - 1;
+
+		int idx = 0;
+		while (idx <= (this.getSize() - 1) / 2) {
+			int tempData = first.data;
+			first.data = last.data;
+			last.data = tempData;
+			first = first.next;
+			Node nm1 = this.getNodeAt(sizeLocal - 1);
+			sizeLocal--;
+			last = nm1;
+			idx++;
+		}
+	}
+
+	public void reversePI() throws Exception {
+		if (this.getSize() == 0) {
+			throw new Exception("Empty List");
+		}
+
+		if (this.getSize() == 1) {
+			return;
+		}
+
+		Node first = this.head;
+		Node second = this.head.next;
+		int idx = 0;
+		while (second != null) {
+			Node temp = second.next;
+			second.next = first;
+
+			first = second;
+			second = temp;
+		}
+		this.tail = this.head;
+		this.tail.next = null;
+		this.head = first;
 
 	}
 
+	public void displayRev() {
+		displayRev(this.head);
+		System.out.println("END");
+	}
+
+	private void displayRev(Node node) {
+		if (node == null) {
+			return;
+		}
+		displayRev(node.next);
+
+		System.out.print(node.data + "->");
+	}
+
+	public void reversePR() {
+		reversePR(this.head, this.head.next);
+		Node temp = this.head;
+		this.head = this.tail;
+		this.tail = temp;
+		this.tail.next = null;
+	}
+
+	private void reversePR(Node one, Node two) {
+		if (two == null) {
+			return;
+		}
+		reversePR(one.next, two.next);
+		two.next = one;
+
+	}
+
+	public void reverseDR() {
+		reverseDR(new RDRHelper(this.head), this.head, 0);
+	}
+
+	private class RDRHelper {
+		Node oneNode;
+
+		public RDRHelper(Node node) {
+			this.oneNode = node;
+		}
+	}
+
+	private void reverseDR(RDRHelper one, Node two, int indx) {
+		if (two == null) {
+			return;
+		}
+		reverseDR(one, two.next, indx + 1);
+		if (indx > this.getSize() / 2) {
+			int temp = one.oneNode.data;
+			one.oneNode.data = two.data;
+			two.data = temp;
+
+			one.oneNode = one.oneNode.next;
+		}
+	}
 }
