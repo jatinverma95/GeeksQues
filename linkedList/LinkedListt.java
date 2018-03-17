@@ -271,7 +271,7 @@ public class LinkedListt {
 			return;
 		}
 		reverseDR(one, two.next, indx + 1);
-		if (indx > this.getSize() / 2) {
+		if (indx >= this.getSize() / 2) {
 			int temp = one.oneNode.data;
 			one.oneNode.data = two.data;
 			two.data = temp;
@@ -279,4 +279,128 @@ public class LinkedListt {
 			one.oneNode = one.oneNode.next;
 		}
 	}
+
+	public void swapNodes(int one, int two) {
+		Node node = this.head;
+		Node onePrev = null;
+		Node twoPrev = null;
+		Node prev = null;
+
+		while (node != null) {
+
+			if (node.data == one) {
+				onePrev = prev;
+			} else if (node.data == two) {
+				twoPrev = prev;
+			}
+			prev = node;
+			node = node.next;
+		}
+
+		if (onePrev != null && twoPrev != null) {
+			Node twoNext = twoPrev.next.next;
+			Node onee = onePrev.next;
+			onePrev.next = twoPrev.next;
+			if (onee.next == twoPrev.next || twoPrev.next.next == onee) {
+				twoPrev.next.next = onee;
+			} else {
+				twoPrev.next.next = onee.next;
+				twoPrev.next = onee;
+			}
+			onee.next = twoNext;
+		} else {
+			return;
+		}
+	}
+
+	public LinkedListt mergeTwoSorted(LinkedListt one) {
+		return mergeTwoSortedLL(this.head, one.head);
+	}
+
+	private LinkedListt mergeTwoSortedLL(Node one, Node two) {
+		LinkedListt result = new LinkedListt();
+		while (one != null && two != null) {
+			if (one.data < two.data) {
+				result.addLast(one.data);
+				one = one.next;
+			} else {
+				result.addLast(two.data);
+
+				two = two.next;
+			}
+
+		}
+
+		while (one != null) {
+			result.addLast(one.data);
+			one = one.next;
+		}
+
+		while (two != null) {
+			result.addLast(two.data);
+			two = two.next;
+		}
+
+		return result;
+
+	}
+
+	public int getMidNodeData() {
+		return getMidNode().data;
+	}
+
+	private Node getMidNode() {
+		return this.getMidNode(this.head, this.head);
+	}
+
+	private Node getMidNode(Node node, Node two) {
+		if (two.next == null || two.next.next == null) {
+			return node;
+		}
+
+		return getMidNode(node.next, two.next.next);
+	}
+
+	public void mergeSort() {
+		LinkedListt ll = mergeSort(this.head, this.tail);
+		this.head = ll.head;
+		this.tail = ll.tail;
+	}
+
+	private LinkedListt mergeSort(Node head, Node tail) {
+		if (head == tail) {
+			LinkedListt br = new LinkedListt();
+			br.addFirst(head.data);
+			return br;
+		}
+		Node midNode = this.getMidNode();
+		Node midNext = midNode.next;
+
+		LinkedListt one = new LinkedListt();
+		one.head = head;
+		one.tail = midNode;
+		one.tail.next = null;
+		one.size = (this.size + 1) / 2;
+
+		LinkedListt two = new LinkedListt();
+		two.head = midNext;
+		two.tail = tail;
+		two.tail.next = null;
+		two.size = (this.size / 2);
+
+		one.mergeSort();
+		two.mergeSort();
+
+		LinkedListt res = new LinkedListt();
+		res = one.mergeTwoSorted(two);
+		res.tail.next = null;
+		res.size = one.size + two.size;
+
+		return res;
+	}
+
+	public void reverseLLGroup() {
+
+	}
+
 }
