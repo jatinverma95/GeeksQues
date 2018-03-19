@@ -80,6 +80,44 @@ public class Client {
 		res.mergeSort();
 		System.out.println("=========After========");
 		res.display();
+
+		System.out.println("---------ReverseKLL-------");
+		ll.swapNodes(30, 20);
+		ll.addLast(60);
+		ll.addLast(70);
+		ll.display();
+
+		ll.reverseKLLGroup(3);
+		ll.display();
+
+		LinkedListt llLoop = new LinkedListt();
+
+		llLoop.LoopHead = new LinkedListt.LoopNode(10);
+		llLoop.LoopHead.next = new LinkedListt.LoopNode(20);
+		llLoop.LoopHead.next.next = new LinkedListt.LoopNode(30);
+		llLoop.LoopHead.next.next.next = new LinkedListt.LoopNode(40);
+		llLoop.LoopHead.next.next.next.next = new LinkedListt.LoopNode(50);
+		llLoop.LoopHead.next.next.next.next.next = new LinkedListt.LoopNode(60);
+		llLoop.LoopHead.next.next.next.next.next.next = llLoop.LoopHead.next.next;
+
+		//// llLoop.LoopDisplay();
+		// llLoop.detectAndRemoveLoop();
+		llLoop.removeLoopByFloydAlgoMethod3();
+		llLoop.LoopDisplay();
+
+		LinkedListt oneAdd = new LinkedListt();
+		oneAdd.addLast(7);
+		oneAdd.addLast(5);
+		oneAdd.addLast(9);
+		oneAdd.addLast(4);
+		oneAdd.addLast(6);
+
+		LinkedListt twoAdd = new LinkedListt();
+		twoAdd.addLast(8);
+		twoAdd.addLast(4);
+
+		oneAdd.addTwoNumbersLL(twoAdd);
+
 	}
 
 }

@@ -1,8 +1,10 @@
 package linkedList;
 
+import java.util.HashMap;
+
 public class LinkedListt {
 
-	private class Node {
+	public class Node {
 		int data;
 		Node next;
 
@@ -10,7 +12,24 @@ public class LinkedListt {
 			this.data = 0;
 			this.next = null;
 		}
+
+		public Node(int data) {
+			this.data = data;
+		}
 	}
+
+	public static class LoopNode {
+		int data;
+		LoopNode next;
+
+		public LoopNode(int data) {
+			this.data = data;
+		}
+	}
+
+	public LoopNode LoopHead;
+	public LoopNode LoopTail;
+	public LoopNode LoopSize;
 
 	private Node head;
 	private Node tail;
@@ -399,7 +418,150 @@ public class LinkedListt {
 		return res;
 	}
 
-	public void reverseLLGroup() {
+	public void reverseKLLGroup(int k) {
+		Node retNode = reverseKLLGroup(this.head, k);
+		this.head = retNode;
+		Node node = this.head;
+		while (node.next != null) {
+			node = node.next;
+		}
+
+		this.tail = node;
+
+	}
+
+	public Node reverseKLLGroup(Node node, int k) {
+		if (node == null) {
+			return null;
+		}
+		int n = k;
+		Node headNode = node;
+		while (n > 1 && node.next != null) {
+			node = node.next;
+			n--;
+		}
+		Node nextNode = node.next;
+		node.next = null;
+		Node retNode = reverseKLLHepler(headNode, headNode.next);
+		headNode.next = reverseKLLGroup(nextNode, k);
+
+		return retNode;
+	}
+
+	private Node reverseKLLHepler(Node one, Node two) {
+		if (two == null) {
+			return one;
+		}
+		Node retNode = reverseKLLHepler(one.next, two.next);
+		two.next = one;
+		one.next = null;
+		return retNode;
+	}
+
+	public boolean detectAndRemoveLoop() {
+		return detectAndRemoveLoop(this.LoopHead);
+	}
+
+	private boolean detectAndRemoveLoop(LoopNode node) {
+		HashMap<LoopNode, Boolean> hm = new HashMap<>();
+		LoopNode prev = null;
+		boolean breakLL = false;
+		while (true) {
+			if (node == null) {
+				break;
+			}
+			if (hm.containsKey(node)) {
+				breakLL = true;
+				break;
+			}
+			hm.put(node, true);
+			prev = node;
+			node = node.next;
+		}
+		if (breakLL) {
+			prev.next = null;
+		}
+		return breakLL;
+
+	}
+
+	public void LoopDisplay() {
+		LoopNode node = this.LoopHead;
+		while (node != null) {
+			System.out.print(node.data + "->");
+			node = node.next;
+		}
+		System.out.println("END");
+	}
+
+	// https://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/
+	public void removeLoopByFloydAlgoMethod3() {
+		removeLoopByFloydAlgoMethod3(this.LoopHead, this.LoopHead);
+	}
+
+	private void removeLoopByFloydAlgoMethod3(LoopNode slow, LoopNode fast) {
+		slow = slow.next;
+		fast = fast.next.next;
+		while (slow != fast) {
+
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+
+		slow = this.LoopHead;
+		LoopNode prev = null;
+		while (slow != fast) {
+			prev = fast;
+			slow = slow.next;
+			fast = fast.next;
+		}
+
+		prev.next = null;
+
+	}
+
+	public void addTwoNumbersLL(LinkedListt second) {
+		addTwoNumbersLL(this.head, second.head);
+	}
+
+	private void addTwoNumbersLL(Node one, Node two) {
+		LinkedListt resList = new LinkedListt();
+		int carry = 0;
+
+		while (one != null && two != null) {
+			int sum = one.data + two.data + carry;
+
+			carry = sum / 10;
+			int num = sum % 10;
+
+			resList.addLast(num);
+
+			one = one.next;
+			two = two.next;
+		}
+
+		while (one != null) {
+			int sum = one.data + carry;
+			carry = sum / 10;
+			int num = sum % 10;
+
+			resList.addLast(num);
+
+			one = one.next;
+		}
+
+		while (two != null) {
+			int sum = two.data + carry;
+			carry = sum / 10;
+			int num = sum % 10;
+
+			resList.addLast(num);
+
+			one = one.next;
+			two = two.next;
+		}
+
+		resList.display();
 
 	}
 
