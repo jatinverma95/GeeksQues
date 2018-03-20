@@ -87,7 +87,7 @@ public class Client {
 		ll.addLast(70);
 		ll.display();
 
-		ll.reverseKLLGroup(3);
+		// ll.reverseKLLGroup(3);
 		ll.display();
 
 		LinkedListt llLoop = new LinkedListt();
@@ -117,6 +117,11 @@ public class Client {
 		twoAdd.addLast(4);
 
 		oneAdd.addTwoNumbersLL(twoAdd);
+
+		System.out.println("-----------llRotation---------");
+		ll.display();
+		ll.rotateLL(4);
+		ll.display();
 
 	}
 

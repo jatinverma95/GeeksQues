@@ -565,4 +565,19 @@ public class LinkedListt {
 
 	}
 
+	public void rotateLL(int k) {
+		rotateLL(this.head, k);
+	}
+
+	private void rotateLL(Node node, int k) {
+		while (k > 1) {
+			node = node.next;
+			k--;
+		}
+		this.tail.next = this.head;
+		this.tail = node;
+		this.head = node.next;
+		this.tail.next = null;
+	}
+
 }
