@@ -119,7 +119,9 @@ public class doublyLinkedListt {
 	}
 
 	public void addAfter(int data, int index) throws Exception {
-		if (this.isEmpty()) {
+		if (this.isEmpty())
+
+		{
 			throw new Exception("EmptyList");
 		}
 		if (index > this.getSize() || index < 0) {
@@ -225,65 +227,110 @@ public class doublyLinkedListt {
 
 	}
 
-	public void quickSortLastPivotInDll() {
-		quickSortLastPivotInDll(this.head, this.tail);
+	public void quickSortLastPivotInDll() { // INCOMPLETE
+		indexHelper ih = new indexHelper();
+		ih.l = this.head;
+		ih.h = this.tail;
+		quickSortLastPivotInDll(ih);
 	}
 
-	private void quickSortLastPivotInDll(Node l, Node h) {
-		if (h != null && l != h && l.next != h) {
-			Node p = partitionHelper(l, h);
-			quickSortLastPivotInDll(this.head, p.prev);
-			quickSortLastPivotInDll(p.next, this.tail);
+	private class indexHelper {
+		Node l;
+		Node h;
+	}
+
+	private void quickSortLastPivotInDll(indexHelper ih) {
+		if (ih.h != null && ih.l != ih.h && ih.l.next != ih.h) {
+			Node temp1 = ih.h;
+			Node p = partitionHelper(ih);
+			Node temp = ih.h;
+			ih.h = p.prev;
+			quickSortLastPivotInDll(ih);
+			ih.l = p.next;
+
+			quickSortLastPivotInDll(ih);
 		}
 	}
 
-	private Node partitionHelper(Node l, Node h) {
-		Node pivot = h;
+	private Node partitionHelper(indexHelper ih) {
+		Node pivot = ih.h;
 
-		Node i = l.prev;
+		Node i = ih.l.prev;
 
-		Node j = l.next;
-		while (j != h) {
+		Node j = ih.l.next;
+		while (j != ih.h) {
 			if (pivot.data >= j.data) {
 				i = i.next;
 				swap(i, j);
+				Node temp = j;
+				j = i.next;
+				i = temp;
+			} else {
+				j = j.next;
 			}
-			j = j.next;
 		}
 		if (i == null) {
-			swap(l, h);
+			swap(ih.l, ih.h);
+			Node temp = ih.l;
+			ih.l = ih.h;
+			ih.h = temp;
 			return this.head;
-		} else {
-			swap(i.next, h);
+		} else { // pivot swapping
+			boolean check = false;
+			if (this.tail == ih.h) {
+				check = true;
+			}
+			swap(i.next, ih.h);
+			if (check) {
+				this.tail = ih.h;
+			}
+			Node temp = i.next;
+			ih.l = ih.h;
+			ih.h = temp;
 			return i.next;
 		}
 
 	}
 
 	private void swap(Node i, Node j) {
-		if (i.prev != null) {
-			i.prev.next = j;
-		}
-		j.prev.next = i;
+		if (i.next == j) {
+			if (i.prev != null) {
+				i.prev.next = j;
+			}
+			j.prev = i.prev;
+			i.next = j.next;
 
-		i.next.prev = j;
-		if (j.next != null) {
-			j.next.prev = i;
-		}
+			i.prev = j;
+			j.next = i;
+			if (i.next != null) {
+				i.next.prev = i;
+			}
+		} else {
 
-		Node temp = j.next;
-		j.next = i.next;
-		i.next = temp;
+			if (i.prev != null) {
+				i.prev.next = j;
+			}
+			j.prev.next = i;
 
-		Node temp2 = j.prev;
-		j.prev = i.prev;
-		i.prev = temp2;
+			i.next.prev = j;
+			if (j.next != null) {
+				j.next.prev = i;
+			}
 
-		if (j.prev == null) {
-			this.head = j;
-		}
-		if (i.next == null) {
-			this.tail = i;
+			Node temp = j.next;
+			j.next = i.next;
+			i.next = temp;
+
+			Node temp2 = j.prev;
+			j.prev = i.prev;
+			i.prev = temp2;
+
+			if (j.prev == null) {
+				this.head = j;
+			}
+			if (i.next == null) {
+				this.tail = i;
+			}
 		}
 	}
 
