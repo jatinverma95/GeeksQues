@@ -18,6 +18,23 @@ public class Client {
 
 		st.evaluatePostfix("231*+9-");
 
+		st.checkBalanceBrackets("{()}{[]");
+
+		st.nextGreaterElement(new int[] { 4, 5, 2, 25 });
+
+		st.display();
+		Stackkk<Integer> stRev = st.reverseStackUsingRecurssion();
+		stRev.display();
+
+		System.out.println("*********");
+		st.push(30);
+		st.push(-5);
+		st.push(18);
+		st.push(14);
+		st.push(-3);
+		st.display();
+		Stackkk<Integer> sortedSt = st.sortUsingRecursion();
+		sortedSt.display();
 	}
 
 }

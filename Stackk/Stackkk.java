@@ -1,5 +1,7 @@
 package Stackk;
 
+import java.util.Stack;
+
 public class Stackkk<T> {
 	protected T[] data;
 	protected int tos;
@@ -55,7 +57,7 @@ public class Stackkk<T> {
 	}
 
 	public void display() {
-		for (int i = 0; i <= this.tos; i++) {
+		for (int i = this.tos; i >= 0; i--) {
 			System.out.println(this.data[i]);
 		}
 		System.out.println("END");
@@ -161,7 +163,7 @@ public class Stackkk<T> {
 		return -1;
 	}
 
-	public void checkBalanceBrackets(String exp) {
+	public void checkBalanceBrackets(String exp) throws Exception {
 
 		Stackkk<Character> st = new Stackkk<>();
 
@@ -170,9 +172,115 @@ public class Stackkk<T> {
 			exp = exp.substring(1);
 
 			if ("([{".indexOf(ch) != -1) {
-				
+				st.push(ch);
+			} else if (")]}".indexOf(ch) != -1) {
+				if (!st.isEmpty()) {
+					char temp = st.pop();
+
+					if ("([{".indexOf(temp) != ")]}".indexOf(ch)) {
+						System.out.println("BracketNotMatching");
+						return;
+					}
+				} else {
+					System.out.println("ClosingMore");
+					return;
+				}
 			}
 		}
+
+		if (st.size() != 0) {
+			System.out.println("OpeningMore");
+		} else {
+
+			System.out.println("AllGood");
+		}
+
+	}
+
+	public void nextGreaterElement(int[] arr) throws Exception {
+		Stackkk<Integer> st = new Stackkk<>();
+		for (int i = arr.length - 1; i >= 0; i--) {
+			int elem = arr[i];
+			if (i == arr.length - 1) {
+				st.push(elem);
+				System.out.println(elem + "->" + -1);
+			} else {
+				while (!st.isEmpty() && st.top() < elem) {
+					st.pop();
+				}
+				if (!st.isEmpty()) {
+					System.out.println(elem + "->" + st.top());
+				} else {
+					System.out.println(elem + "->" + -1);
+				}
+				st.push(elem);
+			}
+
+		}
+
+	}
+
+	public Stackkk<Integer> reverseStackUsingRecurssion() throws Exception {
+		if (this.isEmpty()) {
+			return new Stackkk<>();
+		}
+		int one = (int) this.pop();
+		Stackkk<Integer> st = reverseStackUsingRecurssion();
+		Stackkk<Integer> rvst = insertAtBottom(st, one, false);
+		return rvst;
+
+	}
+
+	private Stackkk<Integer> insertAtBottom(Stackkk<Integer> st, int one, boolean indic) throws Exception {
+		if (st.isEmpty()) {
+			if (!indic) {
+				st.push(one);
+				return st;
+			}
+			return new Stackkk<>();
+		}
+
+		int temp = st.pop();
+		Stackkk<Integer> rst = insertAtBottom(st, one, true);
+		if (rst.isEmpty()) {
+			rst.push(one);
+		}
+		rst.push(temp);
+
+		return rst;
+	}
+
+	public Stackkk<Integer> sortUsingRecursion() throws Exception {
+		if (this.isEmpty()) {
+			return new Stackkk<>();
+		}
+		int temp = (int) this.pop();
+
+		Stackkk<Integer> st = sortUsingRecursion();
+		Stackkk<Integer> rst = sortHelper(st, temp);
+
+		return rst;
+
+	}
+
+	private Stackkk<Integer> sortHelper(Stackkk<Integer> st, int one) throws Exception {
+		if (st.isEmpty()) {
+			Stackkk<Integer> bst = new Stackkk<>();
+			bst.push(one);
+			return bst;
+		}
+		if (st.top() < one) {
+			st.push(one);
+			return st;
+		} else {
+			int temp = st.pop();
+			Stackkk<Integer> stt = sortHelper(st, one);
+			stt.push(temp);
+			return stt;
+		}
+	}
+
+	public void stockSpan() {
 
 	}
 
