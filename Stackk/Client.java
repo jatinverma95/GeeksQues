@@ -35,6 +35,8 @@ public class Client {
 		st.display();
 		Stackkk<Integer> sortedSt = st.sortUsingRecursion();
 		sortedSt.display();
+
+		st.stockSpan(new int[] { 10, 4, 5, 90, 120, 80 });
 	}
 
 }

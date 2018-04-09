@@ -2,9 +2,9 @@ package linkedList.doublyLinkedList;
 
 public class doublyLinkedListt {
 	public class Node {
-		int data;
-		Node next;
-		Node prev;
+		public int data;
+		public Node next;
+		public Node prev;
 
 		public Node() {
 			this.data = 0;
@@ -14,9 +14,9 @@ public class doublyLinkedListt {
 
 	}
 
-	private Node head;
-	private Node tail;
-	private int size;
+	public Node head;
+	Node tail;
+	public int size;
 
 	public doublyLinkedListt() {
 		this.head = null;

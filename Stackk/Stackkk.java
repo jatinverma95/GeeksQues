@@ -280,8 +280,30 @@ public class Stackkk<T> {
 		}
 	}
 
-	public void stockSpan() {
+	public void stockSpan(int[] stock) throws Exception {
+		Stackkk<Integer> span = new Stackkk<>();
+		int[] res = new int[stock.length];
+
+		for (int i = 0; i < stock.length; i++) {
+			if (span.isEmpty()) {
+				span.push(i);
+				res[i] = 1;
+			} else {
+				while (!span.isEmpty() && stock[span.top()] <= stock[i]) {
+					span.pop();
+				}
+				res[i] = span.isEmpty() ? i + 1 : i - span.top();
+				span.push(i);
+			}
+		}
+
+		for (int i : res) {
+			System.out.print(i + ",");
+		}
 
 	}
+	
+	
+	
 
 }
