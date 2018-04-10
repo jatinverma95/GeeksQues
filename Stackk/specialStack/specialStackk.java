@@ -1,10 +1,10 @@
 package Stackk.specialStack;
 
-public class specialStackk<T> {
-	 T[] data;
-	 T[] auxMin;
-	 int tos;
-	 int tosAux;
+public class specialStackk<T extends Comparable<T>> {
+	T[] data;
+	T[] auxMin;
+	int tos;
+	int tosAux;
 
 	public specialStackk() {
 		this(10);
@@ -16,7 +16,7 @@ public class specialStackk<T> {
 		tos = -1;
 	}
 
-//	public <T extends Comparable<T>> void push(T item) throws Exception {
+//	public void push(T item) throws Exception {
 //		if (data.length == tos) {
 //			throw new Exception("Stack full");
 //		}
