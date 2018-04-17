@@ -12,6 +12,24 @@ public class PriorityQueueUsingHeap<T extends Comparable<T>> {
 		this.idxMap = new HashMap<>();
 	}
 
+	public PriorityQueueUsingHeap(T[] arr) {
+		this.data = new ArrayList<>();
+		this.idxMap = new HashMap<>();
+
+		makeHeap(arr);
+	}
+
+	private void makeHeap(T[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			this.data.add(arr[i]);
+			this.idxMap.put(arr[i], i);
+		}
+
+		for (int i = (this.data.size() / 2) - 1; i >= 0; i--) {
+			downheapify(i);
+		}
+	}
+
 	public int size() {
 		return this.data.size();
 	}
@@ -45,8 +63,8 @@ public class PriorityQueueUsingHeap<T extends Comparable<T>> {
 	}
 
 	private boolean isHP(int ci, int pi) {
-		T one = this.data.get(ci);
-		T two = this.data.get(pi);
+		T one = this.data.get(pi);
+		T two = this.data.get(ci);
 
 		if (one.compareTo(two) > 0) {
 			return true;
@@ -94,6 +112,13 @@ public class PriorityQueueUsingHeap<T extends Comparable<T>> {
 			downheapify(maxi);
 		}
 
+	}
+
+	public void updatePriority(T item) {
+		int idx = this.idxMap.get(item);
+
+		upheapify(idx);
+		downheapify(idx);
 	}
 
 }

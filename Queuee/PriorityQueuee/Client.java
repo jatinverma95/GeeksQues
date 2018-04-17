@@ -19,7 +19,15 @@ public class Client {
 
 		pq.removeHP();
 		System.out.println(pq.getHP());
+		pq.addHP(5);
 
+		pq.display();
+
+		Integer[] arr = new Integer[] { 5, 1, 8, 2, 4 };
+
+		PriorityQueueUsingHeap<Integer> pqr = new PriorityQueueUsingHeap<>(arr);
+
+		pqr.display();
 	}
 
 }
