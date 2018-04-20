@@ -1,17 +1,17 @@
 package Queuee;
 
-public class Queueee {
-	protected int[] data;
+public class Queueee<T> {
+	protected Object[] data;
 	protected int front;
 	protected int size;
 
 	public Queueee(int cap) {
-		this.data = new int[cap];
+		this.data = (T[]) new Object[cap];
 		this.front = 0;
 		this.size = 0;
 	}
 
-	public void enqueue(int item) throws Exception {
+	public void enqueue(T item) throws Exception {
 		if (this.size == this.data.length) {
 			throw new Exception("Queue Full");
 		}
@@ -22,24 +22,24 @@ public class Queueee {
 		this.size++;
 	}
 
-	public int dequeue() throws Exception {
+	public T dequeue() throws Exception {
 		if (this.size == 0) {
 			throw new Exception("Queue Empty");
 		}
 
-		int rv = this.data[this.front];
+		T rv = (T) this.data[this.front];
 		this.front = (this.front + 1) % this.data.length;
 		this.size--;
 
 		return rv;
 	}
 
-	public int front() throws Exception {
+	public T front() throws Exception {
 		if (this.size == 0) {
 			throw new Exception("Queue Empty");
 		}
 
-		return this.data[this.front];
+		return (T) this.data[this.front];
 	}
 
 	public int size() {
