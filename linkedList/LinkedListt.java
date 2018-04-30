@@ -153,26 +153,32 @@ public class LinkedListt {
 		}
 	}
 
-	public void removeFirst() throws Exception {
+	public int removeFirst() throws Exception {
 		if (this.isEmpty()) {
 			throw new Exception("EmptyList");
 		}
+		int data = this.head.data;
 		this.head = this.head.next;
 		this.size--;
+
+		return data;
 	}
 
-	public void removeLast() throws Exception {
+	public int removeLast() throws Exception {
 		if (this.isEmpty()) {
 			throw new Exception("EmptyList");
 		}
 
+		int data = this.tail.data;
 		Node nm1Node = this.getNodeAt(this.getSize() - 2);
 		nm1Node.next = null;
 		this.tail = nm1Node;
 		this.size--;
+
+		return data;
 	}
 
-	public void removeAt(int index) throws Exception {
+	public int removeAt(int index) throws Exception {
 		if (this.isEmpty()) {
 			throw new Exception("EmptyList");
 		}
@@ -181,13 +187,16 @@ public class LinkedListt {
 		}
 
 		if (index == 0) {
-			this.removeFirst();
+			return this.removeFirst();
 		} else if (index == this.size - 1) {
-			this.removeLast();
+			return this.removeLast();
 		} else {
 			Node nm1Node = this.getNodeAt(index - 1);
+			int data = nm1Node.next.data;
 			nm1Node.next = nm1Node.next.next;
+
 			this.size--;
+			return data;
 		}
 	}
 
