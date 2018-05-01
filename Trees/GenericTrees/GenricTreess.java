@@ -379,7 +379,7 @@ public class GenricTreess {
 
 	public void deserialize(String ques) {
 		GenricTreess gt2 = new GenricTreess();
-		StringChar sc = removeTillBrack(ques);
+		StringChar sc = removeTillComma(ques);
 
 		Node newRoot = new Node(Integer.parseInt(sc.ch));
 		gt2.root = newRoot;
@@ -391,29 +391,25 @@ public class GenricTreess {
 	}
 
 	private String deserialize(Node node, String ques) {
-		String rv = "";
-		StringChar sc = removeTillBrack(ques);
+		String str = "";
+		StringChar sc = removeTillComma(ques);
 
-		if (sc.ch != ")") {
+		if (!sc.ch.equals(")")) {
 			Node newNode = new Node(Integer.parseInt(sc.ch));
 			node.children.add(newNode);
-			String str = deserialize(newNode, sc.resStr);
-			if (str == ")") {
-				StringChar rStr1 = removeTillBrack(sc.resStr);
-				StringChar rStr2 = removeTillBrack(rStr1.resStr);
-				
-				StringChar sc2 = removeTillBrack(rStr2.resStr);
-				
-				Node newNode2 = new Node(Integer.parseInt(sc2.ch));
-				node.children.add(newNode2);
+			 str = deserialize(newNode, sc.resStr);
 
-				deserialize(newNode2, sc2.resStr);
+			if (str.charAt(0) != ')') {
+				str = deserialize(node, str);
+			} else {
+				return str.substring(2);
 			}
+
 		} else {
-			return ")";
+			return sc.resStr;
 		}
 
-		return rv;
+		return str;
 	}
 
 	private class StringChar {
@@ -421,7 +417,7 @@ public class GenricTreess {
 		String resStr;
 	}
 
-	private StringChar removeTillBrack(String str) {
+	private StringChar removeTillComma(String str) {
 		int i = 0;
 		StringChar sc = new StringChar();
 		while (str.charAt(i) != ',') {

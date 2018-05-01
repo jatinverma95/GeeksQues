@@ -46,6 +46,7 @@ public class Client {
 		// System.out.println(gt.mirrorCheck(gt2));
 
 		System.out.println(gt.serialize());
+		gt.deserialize("10,20,50,),60,110,),),),30,70,),),40,80,),90,),100,),),),");
 
 	}
 
