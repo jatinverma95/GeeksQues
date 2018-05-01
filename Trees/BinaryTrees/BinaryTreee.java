@@ -1,6 +1,8 @@
 package Trees.BinaryTrees;
 
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class BinaryTreee {
 
@@ -196,6 +198,115 @@ public class BinaryTreee {
 		diameter = Math.max(lDiam, Math.max(rDiam, rHeight + lHeight + 1));
 
 		return diameter;
+	}
+
+	public void preOrder() {
+		preOrder(this.root);
+	}
+
+	private void preOrder(Node node) {
+		if (node == null) {
+			return;
+		}
+		System.out.print(node.data + ",");
+
+		preOrder(node.left);
+		preOrder(node.right);
+	}
+
+	public void postOrder() {
+		postOrder(this.root);
+	}
+
+	private void postOrder(Node node) {
+		if (node == null) {
+			return;
+		}
+		postOrder(node.left);
+		postOrder(node.right);
+
+		System.out.print(node.data + ",");
+	}
+
+	public void inOrder() {
+		inOrder(this.root);
+	}
+
+	private void inOrder(Node node) {
+		if (node == null) {
+			return;
+		}
+
+		inOrder(node.left);
+		System.out.print(node.data + ",");
+		inOrder(node.right);
+	}
+
+	public void levelOrder() {
+		levelOrder(this.root);
+		System.out.print("END");
+	}
+
+	private void levelOrder(Node node) {
+		LinkedList<Node> queue = new LinkedList<>();
+
+		queue.addLast(node);
+
+		while (!queue.isEmpty()) {
+			Node temp = queue.removeFirst();
+
+			System.out.print(temp.data + ",");
+			if (temp.left != null) {
+				queue.addLast(temp.left);
+
+			}
+			if (temp.right != null) {
+				queue.addLast(temp.right);
+			}
+
+		}
+	}
+
+	private class OrderPair {
+		Node node;
+
+		boolean isLeftDone;
+		boolean isRightDone;
+		boolean isSelfDone;
+
+		public OrderPair(Node data) {
+			node = (data);
+
+		}
+
+	}
+
+	public void postOrderI() {
+		Stack<OrderPair> st = new Stack<>();
+
+		st.push(new OrderPair(this.root));
+
+		while (!st.isEmpty()) {
+			OrderPair temp = st.lastElement();
+			if (!temp.isLeftDone) {
+				if (temp.node.left != null) {
+					st.push(new OrderPair(temp.node.left));
+				}
+				temp.isLeftDone = true;
+			} else if (!temp.isRightDone) {
+				if (temp.node.right != null) {
+					st.push(new OrderPair(temp.node.right));
+				}
+				temp.isRightDone = true;
+			} else if (!temp.isSelfDone) {
+				System.out.print(temp.node.data + ",");
+				temp.isSelfDone = true;
+			} else {
+				st.pop();
+			}
+
+		}
+
 	}
 
 }
