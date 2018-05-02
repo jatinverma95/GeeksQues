@@ -391,4 +391,15 @@ public class BinaryTreee {
 		this.removeLeaves(node.right, node, false);
 
 	}
+
+	public void inOrderWORec() {
+		this.inOrderWORec(this.root);
+	}
+
+	private void inOrderWORec(Node node) {
+		Stack<Node> st = new Stack<>();
+		
+		
+	}
+
 }
