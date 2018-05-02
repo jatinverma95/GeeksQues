@@ -29,6 +29,17 @@ public class Client {
 		bt.postOrder();
 		System.out.println();
 		bt.postOrderI();
+		System.out.println();
+		bt.display();
+
+		System.out.println(bt.isBST());
+
+		System.out.println(bt.diameter2());
+
+		bt.display();
+		bt.removeLeaves();
+		bt.display();
+
 	}
 
 }

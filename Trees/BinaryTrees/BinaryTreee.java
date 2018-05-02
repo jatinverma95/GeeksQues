@@ -309,4 +309,86 @@ public class BinaryTreee {
 
 	}
 
+	private class BSTPair {
+		boolean isBST;
+		int min;
+		int max;
+	}
+
+	public boolean isBST() {
+		return this.isBST(this.root).isBST;
+	}
+
+	private BSTPair isBST(Node node) {
+		if (node.left == null && node.right == null) {
+			BSTPair bp = new BSTPair();
+			bp.max = node.data;
+			bp.min = node.data;
+			bp.isBST = true;
+			return bp;
+		}
+		BSTPair lp = this.isBST(node.left);
+		BSTPair rp = this.isBST(node.right);
+
+		BSTPair mp = new BSTPair();
+		if (lp.max < node.data && rp.min > node.data && lp.isBST && rp.isBST) {
+			mp.isBST = true;
+			mp.min = lp.min;
+			mp.max = rp.max;
+
+		} else {
+			mp.isBST = false;
+		}
+
+		return mp;
+	}
+
+	private class diapair {
+		int height;
+		int diameter;
+	}
+
+	public int diameter2() {
+		return this.diameter2(this.root).diameter;
+	}
+
+	private diapair diameter2(Node node) {
+		if (node == null) {
+			diapair bp = new diapair();
+			bp.diameter = 0;
+			bp.height = 0;
+			return bp;
+		}
+
+		diapair lp = this.diameter2(node.left);
+		diapair rp = this.diameter2(node.right);
+
+		diapair mp = new diapair();
+
+		mp.height = Math.max(lp.height, rp.height) + 1;
+		mp.diameter = Math.max(lp.height + rp.height + 1, Math.max(lp.diameter, rp.diameter));
+
+		return mp;
+	}
+
+	public void removeLeaves() {
+		this.removeLeaves(this.root, null, true);
+	}
+
+	private void removeLeaves(Node node, Node parent, boolean isLeft) {
+		if (node == null) {
+			return;
+		}
+		if (node.left == null && node.right == null) {
+			if (isLeft) {
+				parent.left = null;
+			} else {
+				parent.right = null;
+			}
+		}
+
+		this.removeLeaves(node.left, node, true);
+		this.removeLeaves(node.right, node, false);
+
+	}
 }
